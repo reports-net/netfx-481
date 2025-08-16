@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36202.13 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.net.Sample.WebSite", "Programs\Reports.net.Sample.WebSite.csproj", "{6C787BF0-3E14-45FA-A2FE-3E061903A15D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A9435D11-2D43-4356-9766-CC1F4EE9A404}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C787BF0-3E14-45FA-A2FE-3E061903A15D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C787BF0-3E14-45FA-A2FE-3E061903A15D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C787BF0-3E14-45FA-A2FE-3E061903A15D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C787BF0-3E14-45FA-A2FE-3E061903A15D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D51CFF77-4E9D-45A0-9D99-8357936DFFF3}
+	EndGlobalSection
+EndGlobal

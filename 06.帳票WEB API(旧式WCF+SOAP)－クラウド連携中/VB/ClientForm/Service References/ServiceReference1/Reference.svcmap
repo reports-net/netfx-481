@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="ca8dc2e7-e421-4f37-82d5-053ca08f0e5f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://paopao-hce5b6hcfwaec0b4.japaneast-01.azurewebsites.net/Service1.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Service1.xsd" MetadataType="Schema" ID="bf78c69c-06ff-402d-8bf7-decd107290a2" SourceId="1" SourceUrl="http://paopao-hce5b6hcfwaec0b4.japaneast-01.azurewebsites.net/Service1.svc?xsd=xsd2" />
+    <MetadataFile FileName="Service11.xsd" MetadataType="Schema" ID="af9ac087-f46e-407a-bdc9-643e3375ba7b" SourceId="1" SourceUrl="http://paopao-hce5b6hcfwaec0b4.japaneast-01.azurewebsites.net/Service1.svc?xsd=xsd1" />
+    <MetadataFile FileName="Service1.disco" MetadataType="Disco" ID="5908eff0-f7ea-4e46-a9f6-c4b23952b6c5" SourceId="1" SourceUrl="http://paopao-hce5b6hcfwaec0b4.japaneast-01.azurewebsites.net/Service1.svc?disco" />
+    <MetadataFile FileName="Service1.wsdl" MetadataType="Wsdl" ID="2fac25ee-1f41-4669-a5a1-486c6e1dd1a4" SourceId="1" SourceUrl="http://paopao-hce5b6hcfwaec0b4.japaneast-01.azurewebsites.net/Service1.svc?wsdl" />
+    <MetadataFile FileName="Service12.xsd" MetadataType="Schema" ID="e355bddd-9500-42ae-a893-20596c3c250f" SourceId="1" SourceUrl="http://paopao-hce5b6hcfwaec0b4.japaneast-01.azurewebsites.net/Service1.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36127.28
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WPF", "WPF\WPF.vbproj", "{36C73173-9A9C-94BD-6FBB-48839AA2CA38}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WinForm", "WinForm\WinForm.vbproj", "{00D7082E-3D6F-4FAE-80B5-23AB97B4B0FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{2022CB0F-8BAF-F49E-0C48-8EF4C96EC109}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36C73173-9A9C-94BD-6FBB-48839AA2CA38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36C73173-9A9C-94BD-6FBB-48839AA2CA38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00D7082E-3D6F-4FAE-80B5-23AB97B4B0FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00D7082E-3D6F-4FAE-80B5-23AB97B4B0FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7C759B03-156B-47B6-BC77-1E431A65B60B}
+	EndGlobalSection
+EndGlobal

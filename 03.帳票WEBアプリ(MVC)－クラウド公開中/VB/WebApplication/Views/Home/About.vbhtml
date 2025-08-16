@@ -1,0 +1,19 @@
+﻿@Code
+    ViewData("Title") = "About"
+End Code
+
+<main aria-labelledby="title">
+    <h2 id="title">@ViewBag.Title.</h2>
+
+    <p>
+        Reports.netは、C#で帳票を作成し、C#で帳票を出力する.NET開発者向け帳票ツールです。<br />
+        VB.NETなど他の.NET言語でもご利用いただけます。<br />
+        .NET 5 / .NET 6 / .NET 7 / .NET 8 / .NET 9 に対応し、Windows / Linux で動作します。
+    </p>
+
+    <p>
+        Reports.net is a report generation tool designed for .NET developers to create and output reports using C#.<br />
+        It also supports other .NET languages such as VB.NET.<br />
+        Compatible with .NET 5, 6, 7, 8, and 9, it runs on both Windows and Linux platforms.
+    </p>
+</main>
