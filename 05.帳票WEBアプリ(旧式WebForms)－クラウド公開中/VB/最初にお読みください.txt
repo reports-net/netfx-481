@@ -1,0 +1,158 @@
+《本サンプル (ASP.NET Azure WEBアプリ) は、ソースコード参照用参考プログラムです。》
+
+本サンプルプログラムは、Pao@OfficeのAzure上 WEBアプリのサイトで動作しているソースコードです。
+http://reportssamplewebsite.azurewebsites.net/
+
+.NET 5 ～ .NET 9以降 用ではなく「.NET Framework 用のAzure発行参考プログラム」になります。
+
+.NET 5 ～ .NET 9以降 用は、適合したインストーラをダウンロードしてください。
+「.NET 5 ～ .NET 9以降 用のWEBアプリケーション」サンプルプログラムを
+ご用意させていただいております。
+※Linux上で動作するサンプルプログラムも用意させていただいております。
+　AWSやAzureにデプロイして動作確認しております。Dockerも作成可能です。
+
+弊社Azure上では、SQL Serverデータベースを利用しております。
+本サンプルソースコードでは、
+弊社Azure上のSQL Server に「読み込み専用ユーザ」で接続する「接続文字列」を使用しております。
+
+本サンプルプログラムは、ローカルのデバッグ環境では動作します。
+ただし当然、Azureへの「発行」(デプロイ)はできません。
+※弊社のAzureを書き換えるわけにはまいりませんので。
+ご自分の環境に合わせて「発行」の設定値を変えてAzureへのデプロイ(発行)を行ってください。
+
+LinuxやDocker, AWS, Azure, GCPを含めて、
+Reports.net の様々な使い方について動画やブログの記事をご用意させていただきました。
+動画サイトとブログサイトでは、具体的に様々な用途の手順を動画・記事としてまとめてあります。
+是非、チャンネル登録してご覧ください。
+
+- 動画サイトのチャンネル
+　https://www.youtube.com/channel/UCYKjmyVrFhW_w_WhLU-wdqA?sub_confirmation=1
+　※これからも追加してまいりますので、是非チャンネル登録をお願いいたします。
+
+※動画サイトには、Linuxで動作するWEBアプリケーションや、
+　Reports.netを利用した帳票出力WEB API(REST)の作成方法などを掲載しております。
+
+よろしくお願いいたします。
+
+==========================================================================
+🚨《ソリューションでプロジェクトが読み込めない。またはプロジェクトが起動できない時》
+==========================================================================
+
+A．【最優先】OneDriveによるIIS Express エラー（2025年5月現在の主要原因）
+
+🎯 症状
+- ソリューション(.sln)を開くとプロジェクトが「アンロード済み」として灰色表示される
+
+- プロジェクトを直接開くとエラー発生：
+　ファイル名: redirection.config
+　エラー: 構成ファイルを読み取れません
+
+🔍 原因
+OneDriveがDocumentsフォルダーを管理している場合、IIS Expressの設定ファイルが
+「オンラインのみ」状態になり、ローカルで利用できなくなることがある。
+Windows Update後に発生しやすい問題です。
+
+✅ 解決方法（推奨⭐）
+1. エクスプローラーを開く
+2. 以下のパスを確認：
+   - C:\Users\[ユーザー名]\OneDrive\Documents\IISExpress
+   - C:\Users\[ユーザー名]\Documents\IISExpress
+3. C:\Users\[ユーザー名]\OneDrive\Documents\IISExpressフォルダーを右クリック
+4. 「このデバイス上に常に保持する」を選択
+5. パソコンを再起動
+
+
+==========================================================================
+🚨その他のビルドエラー、実行時エラー
+==========================================================================
+
+B．Microsoft.Web.Infrastructure エラーの場合
+
+🎯 症状
+```
+ファイルまたはアセンブリ 'Microsoft.Web.Infrastructure, Version=1.0.0.0, 
+Culture=neutral, PublicKeyToken=31bf3856ad364e35'、またはその依存関係の 1 つが
+読み込めませんでした。指定されたファイルが見つかりません。
+```
+
+✅ 解決方法
+Nugetパッケージの以下のものを1.からアンインストールし、逆順で4.からインストールしなおす。
+1. Microsoft.AspNet.Web.Optimization.WebForms
+2. Microsoft.AspNet.Web.Optimization
+3. Microsoft.Web.Infrastructure
+※バージョンは、すべて 1.0.0
+
+
+----------
+
+C．ポート使用中エラーの場合
+
+🎯 症状
+```
+localhost により、接続が拒否されました。
+指定されたポートは使用中です。
+ポート 'nnnnn' はその他のアプリケーションで既に使用されています。
+```
+
+✅ 解決方法
+(1) .vs フォルダを削除
+
+(2) .csproj ファイルのポート設定を変更
+
+(a) IISExpressSSLPort の設定
+変更前：
+```xml
+<Use64BitIISExpress />
+<IISExpressSSLPort />
+<IISExpressAnonymousAuthentication />
+<IISExpressWindowsAuthentication />
+<IISExpressUseClassicPipelineMode />
+```
+
+変更後（53333は例）：
+```xml
+<Use64BitIISExpress />
+<IISExpressSSLPort>53333</IISExpressSSLPort>
+<IISExpressAnonymousAuthentication />
+<IISExpressWindowsAuthentication />
+<IISExpressUseClassicPipelineMode />
+```
+
+(b) WebProjectProperties の IISUrl, DevelopmentServerPort の設定
+変更前：
+```xml
+<WebProjectProperties>
+  <UseIIS>True</UseIIS>
+  <AutoAssignPort>True</AutoAssignPort>
+  <DevelopmentServerPort>54321</DevelopmentServerPort>
+  <DevelopmentServerVPath>/</DevelopmentServerVPath>
+  <IISUrl>http://localhost:51234/</IISUrl>
+  <NTLMAuthentication>False</NTLMAuthentication>
+  <UseCustomServer>False</UseCustomServer>
+  <CustomServerUrl></CustomServerUrl>
+  <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+</WebProjectProperties>
+```
+
+変更後（ポート番号を統一）：
+```xml
+<WebProjectProperties>
+  <UseIIS>True</UseIIS>
+  <AutoAssignPort>True</AutoAssignPort>
+  <DevelopmentServerPort>53333</DevelopmentServerPort>
+  <DevelopmentServerVPath>/</DevelopmentServerVPath>
+  <IISUrl>http://localhost:53333/</IISUrl>
+  <NTLMAuthentication>False</NTLMAuthentication>
+  <UseCustomServer>False</UseCustomServer>
+  <CustomServerUrl></CustomServerUrl>
+  <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+</WebProjectProperties>
+```
+
+🔗 参考情報
+詳細な解決方法については以下のサイトもご参照ください：
+https://www.ipentec.com/document/visual-studio-error-iis-express-the-specified-port-is-in-use-when-starting-debug
+
+変更後、ソリューションファイルを再度開き、プロジェクトを実行するとエラーが発生せずに実行できます。
+
+以上です。
