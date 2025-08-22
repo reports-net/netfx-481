@@ -35,8 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Reports.net" Version="4.8.1.2" Condition="!Exists('$(ProgramFiles)\Pao@Office\Reports.net\Pao.Reports.dll') And !Exists('$(ProgramFiles(x86))\Pao@Office\Reports.net\Pao.Reports.dll')" />
     <Reference Include="Pao.Reports">
-      <HintPath>$(SolutionDir)..\..\lib\Pao.Reports.dll</HintPath>
+      <HintPath Condition="Exists('$(ProgramFiles)')">$(ProgramFiles)\Pao@Office\Reports.net\Pao.Reports.dll</HintPath>
+      <HintPath Condition="Exists('$(ProgramFiles) (x86)')">$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

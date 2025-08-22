@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -146,8 +146,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <PackageReference Include="Reports.net.Azure" Version="4.8.1.2" Condition="!Exists('$(ProgramFiles)\Pao@Office\Reports.net\Pao.Reports.dll') And !Exists('$(ProgramFiles(x86))\Pao@Office\Reports.net\Pao.Reports.dll')" />
     <Reference Include="Pao.Reports.Azure">
-      <HintPath>$(SolutionDir)..\..\lib\Pao.Reports.Azure.dll</HintPath>
+      <HintPath Condition="Exists('$(ProgramFiles)')">$(ProgramFiles)\Pao@Office\Reports.net\Pao.Reports.Azure.dll</HintPath>
+      <HintPath Condition="Exists('$(ProgramFiles) (x86)')">$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.Azure.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>

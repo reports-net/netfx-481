@@ -24,6 +24,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <PackageReference Include="Reports.net" Version="4.8.1.2" Condition="!Exists('$(ProgramFiles)\Pao@Office\Reports.net\Pao.Reports.dll') And !Exists('$(ProgramFiles(x86))\Pao@Office\Reports.net\Pao.Reports.dll')" />
     <Reference Include="Pao.Reports">
       <HintPath>$(ProgramFiles)\Pao@Office\Reports.net\Pao.Reports.dll</HintPath>
       <HintPath Condition="Exists('$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.dll')">$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.dll</HintPath>

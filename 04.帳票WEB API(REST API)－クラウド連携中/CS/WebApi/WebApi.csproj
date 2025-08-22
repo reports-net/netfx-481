@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -128,8 +128,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <PackageReference Include="Reports.net.Azure" Version="4.8.1.2" Condition="!Exists('$(ProgramFiles)\Pao@Office\Reports.net\Pao.Reports.dll') And !Exists('$(ProgramFiles(x86))\Pao@Office\Reports.net\Pao.Reports.dll')" />
     <Reference Include="Pao.Reports.Azure">
-      <HintPath>$(SolutionDir)..\..\lib\Pao.Reports.Azure.dll</HintPath>
+      <HintPath Condition="Exists('$(ProgramFiles)')">$(ProgramFiles)\Pao@Office\Reports.net\Pao.Reports.Azure.dll</HintPath>
+      <HintPath Condition="Exists('$(ProgramFiles) (x86)')">$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.Azure.dll</HintPath>
     </Reference>
 
   </ItemGroup>
