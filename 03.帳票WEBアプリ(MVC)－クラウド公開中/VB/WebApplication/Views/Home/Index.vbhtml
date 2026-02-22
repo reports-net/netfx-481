@@ -31,9 +31,16 @@ End Code
             <tr>
                 <td align="center">
                     <br />
+                    <label style="margin-right:18px;"><input type="radio" name="OutputFormat" value="PDF" checked="checked" /> PDF</label>
+                    <label style="margin-right:18px;"><input type="radio" name="OutputFormat" value="SVG" /> SVG 一括</label>
+                    <label><input type="radio" name="OutputFormat" value="SVGPreview" /> SVG プレビュー</label>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
                     <br />
-                    <input type="submit" name="PdfAction" value="View PDF" formtarget="_blank" />
-                    <input type="submit" name="PdfAction" value="Download PDF" />
+                    <input type="submit" name="PdfAction" value="View" formtarget="_blank" />
+                    <input type="submit" name="PdfAction" value="Download" />
                 </td>
             </tr>
         </table>

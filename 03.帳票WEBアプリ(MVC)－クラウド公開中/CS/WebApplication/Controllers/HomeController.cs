@@ -24,18 +24,69 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Index(string ReportsKind, string PdfAction)
+        public ActionResult SvgTag(string kind = "simple", int page = 1)
         {
-            if (PdfAction.StartsWith("View"))
+            #region 接続文字列
+            sqlcon = new SqlConnection("Server=tcp:fzxu46e9ck.database.windows.net,1433;Initial Catalog=Reports.net.Sample;Persist Security Info=False;User ID=AzureLab;Password=ayakaRk9504w;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            #endregion
+            IReport paoRep = ReportCreator.GetReport();
+            if (kind == "simple") makeReports単純なサンプル(paoRep);
+            else if (kind == "simple10") makeReports10の倍数(paoRep);
+            else if (kind == "zipcode") makeReports郵便番号(paoRep);
+            else if (kind == "mitsumori") makeReports見積書(paoRep);
+            else if (kind == "koukoku") makeReports広告(paoRep);
+            else if (kind == "invoice") makeReports請求書(paoRep);
+            else if (kind == "itemlist") makeReports商品一覧(paoRep);
+            string svgTag = paoRep.GetSvgTag(page);
+            Response.Headers["X-Total-Pages"] = paoRep.AllPages.ToString();
+            return Content(svgTag, "image/svg+xml", System.Text.Encoding.UTF8);
+        }
+
+        [HttpPost]
+        public ActionResult Index(string ReportsKind, string PdfAction, string OutputFormat)
+        {
+            if (OutputFormat == "SVGPreview")
             {
+                #region 接続文字列
+                sqlcon = new SqlConnection("Server=tcp:fzxu46e9ck.database.windows.net,1433;Initial Catalog=Reports.net.Sample;Persist Security Info=False;User ID=AzureLab;Password=ayakaRk9504w;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                #endregion
+                IReport paoRep = ReportCreator.GetReport();
+                if (ReportsKind == "simple") makeReports単純なサンプル(paoRep);
+                else if (ReportsKind == "simple10") makeReports10の倍数(paoRep);
+                else if (ReportsKind == "zipcode") makeReports郵便番号(paoRep);
+                else if (ReportsKind == "mitsumori") makeReports見積書(paoRep);
+                else if (ReportsKind == "koukoku") makeReports広告(paoRep);
+                else if (ReportsKind == "invoice") makeReports請求書(paoRep);
+                else if (ReportsKind == "itemlist") makeReports商品一覧(paoRep);
                 ViewBag.ReportsKind = ReportsKind;
-                return View("ShowPdf");
+                ViewBag.AllPages = paoRep.AllPages;
+                return View("ShowSvgPreview");
+            }
+            else if (OutputFormat == "SVG")
+            {
+                string svgHtml = GenerateSvgString(ReportsKind);
+                if (PdfAction.StartsWith("View"))
+                {
+                    return Content(svgHtml, "text/html", System.Text.Encoding.UTF8);
+                }
+                else
+                {
+                    byte[] svgBytes = System.Text.Encoding.UTF8.GetBytes(svgHtml);
+                    return File(svgBytes, "text/html", ReportsKind + ".html");
+                }
             }
             else
             {
-                byte[] pdfBytes = GeneratePdfBytes(ReportsKind);
-                return File(pdfBytes, "application/pdf", ReportsKind + ".pdf");
+                if (PdfAction.StartsWith("View"))
+                {
+                    ViewBag.ReportsKind = ReportsKind;
+                    return View("ShowPdf");
+                }
+                else
+                {
+                    byte[] pdfBytes = GeneratePdfBytes(ReportsKind);
+                    return File(pdfBytes, "application/pdf", ReportsKind + ".pdf");
+                }
             }
         }
 
@@ -45,6 +96,52 @@ namespace WebApplication1.Controllers
             return File(pdfBytes, "application/pdf");
         }
 
+        public ActionResult GetSvgStream(string ReportsKind)
+        {
+            string svgHtml = GenerateSvgString(ReportsKind);
+            return Content(svgHtml, "text/html", System.Text.Encoding.UTF8);
+        }
+
+
+        // SVG生成
+        private string GenerateSvgString(string ReportsKind)
+        {
+            #region 接続文字列
+            sqlcon = new SqlConnection("Server=tcp:fzxu46e9ck.database.windows.net,1433;Initial Catalog=Reports.net.Sample;Persist Security Info=False;User ID=AzureLab;Password=ayakaRk9504w;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            #endregion
+
+            IReport paoRep = ReportCreator.GetReport();
+            if (ReportsKind == "simple")
+            {
+                makeReports単純なサンプル(paoRep);
+            }
+            else if (ReportsKind == "simple10")
+            {
+                makeReports10の倍数(paoRep);
+            }
+            else if (ReportsKind == "mitsumori")
+            {
+                makeReports見積書(paoRep);
+            }
+            else if (ReportsKind == "zipcode")
+            {
+                makeReports郵便番号(paoRep);
+            }
+            else if (ReportsKind == "koukoku")
+            {
+                makeReports広告(paoRep);
+            }
+            else if (ReportsKind == "invoice")
+            {
+                makeReports請求書(paoRep);
+            }
+            else if (ReportsKind == "itemlist")
+            {
+                makeReports商品一覧(paoRep);
+            }
+
+            return paoRep.GetSvg();
+        }
 
         // PDF生成を共通化
         private byte[] GeneratePdfBytes(string ReportsKind)

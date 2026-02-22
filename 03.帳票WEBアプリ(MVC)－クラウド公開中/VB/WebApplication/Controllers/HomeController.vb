@@ -23,20 +23,105 @@ Namespace WebApplication1.Controllers
             Return View()
         End Function
 
+        Function SvgTag(Optional kind As String = "simple", Optional page As Integer = 1) As ActionResult
+            sqlcon = New SqlConnection("Server=tcp:fzxu46e9ck.database.windows.net,1433;Initial Catalog=Reports.net.Sample;Persist Security Info=False;User ID=AzureLab;Password=ayakaRk9504w;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;")
+            Dim paoRep As IReport = ReportCreator.GetReport()
+            Select Case kind
+                Case "simple"
+                    makeReports単純なサンプル(paoRep)
+                Case "simple10"
+                    makeReports10の倍数(paoRep)
+                Case "zipcode"
+                    makeReports郵便番号(paoRep)
+                Case "mitsumori"
+                    makeReports見積書(paoRep)
+                Case "koukoku"
+                    makeReports広告(paoRep)
+                Case "invoice"
+                    makeReports請求書(paoRep)
+                Case "itemlist"
+                    makeReports商品一覧(paoRep)
+            End Select
+            Dim svgTag As String = paoRep.GetSvgTag(page)
+            Response.Headers("X-Total-Pages") = paoRep.AllPages.ToString()
+            Return Content(svgTag, "image/svg+xml", System.Text.Encoding.UTF8)
+        End Function
+
         <HttpPost>
-        Function Index(ReportsKind As String, PdfAction As String) As ActionResult
-            If PdfAction.StartsWith("View") Then
+        Function Index(ReportsKind As String, PdfAction As String, OutputFormat As String) As ActionResult
+            If OutputFormat = "SVGPreview" Then
+                sqlcon = New SqlConnection("Server=tcp:fzxu46e9ck.database.windows.net,1433;Initial Catalog=Reports.net.Sample;Persist Security Info=False;User ID=AzureLab;Password=ayakaRk9504w;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;")
+                Dim paoRep As IReport = ReportCreator.GetReport()
+                Select Case ReportsKind
+                    Case "simple"
+                        makeReports単純なサンプル(paoRep)
+                    Case "simple10"
+                        makeReports10の倍数(paoRep)
+                    Case "zipcode"
+                        makeReports郵便番号(paoRep)
+                    Case "mitsumori"
+                        makeReports見積書(paoRep)
+                    Case "koukoku"
+                        makeReports広告(paoRep)
+                    Case "invoice"
+                        makeReports請求書(paoRep)
+                    Case "itemlist"
+                        makeReports商品一覧(paoRep)
+                End Select
                 ViewBag.ReportsKind = ReportsKind
-                Return View("ShowPdf")
+                ViewBag.AllPages = paoRep.AllPages
+                Return View("ShowSvgPreview")
+            ElseIf OutputFormat = "SVG" Then
+                Dim svgHtml As String = GenerateSvgString(ReportsKind)
+                If PdfAction.StartsWith("View") Then
+                    Return Content(svgHtml, "text/html", System.Text.Encoding.UTF8)
+                Else
+                    Dim svgBytes As Byte() = System.Text.Encoding.UTF8.GetBytes(svgHtml)
+                    Return File(svgBytes, "text/html", ReportsKind & ".html")
+                End If
             Else
-                Dim pdfBytes As Byte() = GeneratePdfBytes(ReportsKind)
-                Return File(pdfBytes, "application/pdf", ReportsKind & ".pdf")
+                If PdfAction.StartsWith("View") Then
+                    ViewBag.ReportsKind = ReportsKind
+                    Return View("ShowPdf")
+                Else
+                    Dim pdfBytes As Byte() = GeneratePdfBytes(ReportsKind)
+                    Return File(pdfBytes, "application/pdf", ReportsKind & ".pdf")
+                End If
             End If
         End Function
 
         Function GetPdfStream(ReportsKind As String) As ActionResult
             Dim pdfBytes As Byte() = GeneratePdfBytes(ReportsKind)
             Return File(pdfBytes, "application/pdf")
+        End Function
+
+        Function GetSvgStream(ReportsKind As String) As ActionResult
+            Dim svgHtml As String = GenerateSvgString(ReportsKind)
+            Return Content(svgHtml, "text/html", System.Text.Encoding.UTF8)
+        End Function
+
+        Private Function GenerateSvgString(ReportsKind As String) As String
+            sqlcon = New SqlConnection("Server=tcp:fzxu46e9ck.database.windows.net,1433;Initial Catalog=Reports.net.Sample;Persist Security Info=False;User ID=AzureLab;Password=ayakaRk9504w;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;")
+
+            Dim paoRep As IReport = ReportCreator.GetReport()
+            Select Case ReportsKind
+                Case "simple"
+                    makeReports単純なサンプル(paoRep)
+                Case "simple10"
+                    makeReports10の倍数(paoRep)
+                Case "mitsumori"
+                    makeReports見積書(paoRep)
+                Case "zipcode"
+                    makeReports郵便番号(paoRep)
+                Case "koukoku"
+                    makeReports広告(paoRep)
+                Case "invoice"
+                    makeReports請求書(paoRep)
+                Case "itemlist"
+                    makeReports商品一覧(paoRep)
+            End Select
+
+            Return paoRep.GetSvg()
         End Function
 
         Private Function GeneratePdfBytes(ReportsKind As String) As Byte()
