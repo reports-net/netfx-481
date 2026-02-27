@@ -10,6 +10,12 @@ Public Module RouteConfig
         routes.IgnoreRoute("{resource}.axd/{*pathInfo}")
 
         routes.MapRoute(
+            name:="SvgTag",
+            url:="svgtag/{kind}",
+            defaults:=New With {.controller = "Home", .action = "SvgTag", .kind = "simple"}
+        )
+
+        routes.MapRoute(
             name:="Default",
             url:="{controller}/{action}/{id}",
             defaults:=New With {.controller = "Home", .action = "Index", .id = UrlParameter.Optional}

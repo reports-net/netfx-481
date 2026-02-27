@@ -60,6 +60,12 @@ namespace WebApplication1.Controllers
                 else if (ReportsKind == "itemlist") makeReports商品一覧(paoRep);
                 ViewBag.ReportsKind = ReportsKind;
                 ViewBag.AllPages = paoRep.AllPages;
+                var svgPages = new List<string>();
+                for (int i = 1; i <= paoRep.AllPages; i++)
+                {
+                    svgPages.Add(paoRep.GetSvgTag(i));
+                }
+                ViewBag.SvgPages = svgPages;
                 return View("ShowSvgPreview");
             }
             else if (OutputFormat == "SVG")

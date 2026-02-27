@@ -178,10 +178,11 @@ namespace Sample
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    // *** 保存が失敗するときはOneDriveへ保存しようとしていると思われます
+                    // GetSvg()でインラインSVG埋め込みHTML文字列を取得し、ファイルに保存
+                    string svgHtml = paoRep.GetSvg();
+                    System.IO.File.WriteAllText(saveFileDialog.FileName, svgHtml, System.Text.Encoding.UTF8);
 
-                    paoRep.SaveSVGFile(saveFileDialog.FileName); //SVGデータの保存
-                    if (MessageBox.Show(this, "ブラウザで表示しますか？\n表示する場合、SVGプラグインが必要です。", "SVG の表示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (MessageBox.Show(this, "ブラウザで表示しますか？", "SVG の表示", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo(saveFileDialog.FileName);
                         startInfo.UseShellExecute = true;

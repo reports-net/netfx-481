@@ -108,11 +108,13 @@ Namespace Sample
                 saveFileDialog.FileName = "印刷データ"
                 saveFileDialog.Filter = "html形式 (*.html)|*.html"
                 If saveFileDialog.ShowDialog() = DialogResult.OK Then
-                    paoRep.SaveSVGFile(saveFileDialog.FileName)
+                    ' インラインSVG埋め込みHTML文字列を取得し、ファイルに保存
+                    Dim svgHtml As String = paoRep.GetSvg()
+                    System.IO.File.WriteAllText(saveFileDialog.FileName, svgHtml, System.Text.Encoding.UTF8)
 
                     ' *** 保存が失敗するときはOneDriveへ保存しようとしていると思われます
 
-                    If MessageBox.Show(Me, "ブラウザで表示しますか？" & Environment.NewLine & "表示する場合、SVGプラグインが必要です。", "SVG の表示", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                    If MessageBox.Show(Me, "ブラウザで表示しますか？", "SVG の表示", MessageBoxButtons.YesNo) = DialogResult.Yes Then
                         Dim startInfo As New ProcessStartInfo(saveFileDialog.FileName)
                         startInfo.UseShellExecute = True
                         Process.Start(startInfo)

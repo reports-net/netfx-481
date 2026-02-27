@@ -1,3 +1,4 @@
+﻿@using System.Web.Helpers
 @{
     Layout = null;
 }
@@ -42,6 +43,20 @@
         #svgContainer svg {
             box-shadow: 2px 3px 10px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.08);
         }
+        .navbar .print-btn {
+            font-size: 18px;
+            padding: 4px 8px;
+            margin-left: 12px;
+            cursor: pointer;
+            background: none;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+        }
+        .navbar .print-btn:hover { background: #ddd; }
+        @@media print {
+            .navbar { display: none !important; }
+            #svgContainer { padding: 0; }
+        }
     </style>
 </head>
 <body>
@@ -54,13 +69,15 @@
         <input type="number" id="pageInput" min="1" value="1"
                onkeydown="if(event.key==='Enter'){goPage(this.value);}" />
         <span id="totalPages"></span>
+        <button class="print-btn" onclick="printCurrentPage()" title="クイック印刷（このページを印刷）">&#128269;</button>
+        <button class="print-btn" onclick="printAllPages()" title="通常印刷（全ページを印刷）">&#128424;</button>
     </div>
     <div id="svgContainer"></div>
 
     <script>
         var currentPage = 1;
         var allPages = @ViewBag.AllPages;
-        var reportsKind = '@ViewBag.ReportsKind';
+        var svgPages = @Html.Raw(Json.Encode(ViewBag.SvgPages));
 
         document.getElementById('totalPages').textContent = '/ ' + allPages;
         document.getElementById('pageInput').max = allPages;
@@ -78,11 +95,7 @@
             if (page > allPages) page = allPages;
             currentPage = page;
             updateButtons();
-            fetch('/Home/SvgTag?kind=' + reportsKind + '&page=' + currentPage)
-                .then(function (response) { return response.text(); })
-                .then(function (svgText) {
-                    document.getElementById('svgContainer').innerHTML = svgText;
-                });
+            document.getElementById('svgContainer').innerHTML = svgPages[page - 1];
         }
 
         function goFirst() { loadPage(1); }
@@ -90,6 +103,23 @@
         function goNext() { loadPage(currentPage + 1); }
         function goLast() { loadPage(allPages); }
         function goPage(p) { loadPage(parseInt(p) || 1); }
+
+        // クイック印刷: 現在表示中のページだけ印刷
+        function printCurrentPage() {
+            window.print();
+        }
+
+        // 通常印刷: 全ページのSVGを印刷
+        function printAllPages() {
+            var w = window.open('', '_blank');
+            w.document.write('<html><head><title>印刷<\/title>');
+            w.document.write('<style>body{margin:0;} svg{page-break-after:always; display:block; margin:0 auto;} svg:last-child{page-break-after:auto;}<\/style>');
+            w.document.write('<\/head><body>');
+            w.document.write(svgPages.join(''));
+            w.document.write('<\/body><\/html>');
+            w.document.close();
+            setTimeout(function() { w.print(); }, 300);
+        }
 
         loadPage(1);
     </script>

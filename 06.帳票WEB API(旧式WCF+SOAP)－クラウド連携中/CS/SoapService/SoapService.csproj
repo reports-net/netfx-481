@@ -41,6 +41,21 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <!-- DLLがインストール済みならローカル参照、なければNuGetから取得 -->
+  <Choose>
+      <When Condition="Exists('$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.Azure.dll')">
+        <ItemGroup>
+          <Reference Include="Pao.Reports.Azure">
+            <HintPath>$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.Azure.dll</HintPath>
+          </Reference>
+        </ItemGroup>
+      </When>
+      <Otherwise>
+        <ItemGroup>
+          <PackageReference Include="Reports.net.Azure" Version="4.8.1.*" />
+        </ItemGroup>
+      </Otherwise>
+  </Choose>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -58,10 +73,8 @@
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>False</Private>
     </Reference>
-    <PackageReference Include="Reports.net.Azure" Version="4.8.1.4" Condition="!Exists('$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.Azure.dll')" />
-    <Reference Include="Pao.Reports.Azure" Condition="Exists('$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.Azure.dll')">
-      <HintPath Condition="Exists('$(ProgramFiles) (x86)')">$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.Azure.dll</HintPath>
-    </Reference>
+    <!-- Reports.net 本体 -->
+    <!-- インストールフォルダにDLLがなければNuGetパッケージから参照 -->
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Spatial, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

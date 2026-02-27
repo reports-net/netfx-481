@@ -42,9 +42,9 @@ Namespace WebApplication1.Controllers
                 Case "itemlist"
                     makeReports商品一覧(paoRep)
             End Select
-            Dim svgTag As String = paoRep.GetSvgTag(page)
+            Dim svgResult As String = paoRep.GetSvgTag(page)
             Response.Headers("X-Total-Pages") = paoRep.AllPages.ToString()
-            Return Content(svgTag, "image/svg+xml", System.Text.Encoding.UTF8)
+            Return Content(svgResult, "image/svg+xml", System.Text.Encoding.UTF8)
         End Function
 
         <HttpPost>
@@ -70,6 +70,11 @@ Namespace WebApplication1.Controllers
                 End Select
                 ViewBag.ReportsKind = ReportsKind
                 ViewBag.AllPages = paoRep.AllPages
+                Dim svgPages As New List(Of String)()
+                For i As Integer = 1 To paoRep.AllPages
+                    svgPages.Add(paoRep.GetSvgTag(i))
+                Next
+                ViewBag.SvgPages = svgPages
                 Return View("ShowSvgPreview")
             ElseIf OutputFormat = "SVG" Then
                 Dim svgHtml As String = GenerateSvgString(ReportsKind)

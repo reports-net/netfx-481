@@ -84,7 +84,9 @@ Namespace Sample
             ElseIf radSVG.IsChecked = True Then
                 Dim saveFileName As String = ShowSaveDialog("html")
                 If saveFileName = "" Then Return
-                paoRep.SaveSVGFile(saveFileName)
+                ' インラインSVG埋め込みHTML文字列を取得し、ファイルに保存
+                Dim svgHtml As String = paoRep.GetSvg()
+                System.IO.File.WriteAllText(saveFileName, svgHtml, System.Text.Encoding.UTF8)
 
                 ' *** 保存が失敗するときはOneDriveへ保存しようとしていると思われます
 

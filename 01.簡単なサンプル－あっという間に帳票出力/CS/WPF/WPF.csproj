@@ -35,6 +35,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup />
+  <!-- DLLがインストール済みならローカル参照、なければNuGetから取得 -->
+  <Choose>
+      <When Condition="Exists('$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.dll')">
+        <ItemGroup>
+          <Reference Include="Pao.Reports">
+            <HintPath>$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.dll</HintPath>
+          </Reference>
+        </ItemGroup>
+      </When>
+      <Otherwise>
+        <ItemGroup>
+          <PackageReference Include="Reports.net" Version="4.8.1.*" />
+        </ItemGroup>
+      </Otherwise>
+  </Choose>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -54,10 +69,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
     <!-- Reports.net 本体 -->
-    <PackageReference Include="Reports.net" Version="4.8.1.4" Condition="!Exists('$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.dll')" />
-    <Reference Include="Pao.Reports" Condition="Exists('$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.dll')">
-      <HintPath Condition="Exists('$(ProgramFiles) (x86)')">$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.dll</HintPath>
-    </Reference>
+    <!-- インストールフォルダにDLLがなければNuGetパッケージから参照 -->
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />

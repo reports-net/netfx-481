@@ -14,6 +14,12 @@ namespace WebApplication1
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "SvgTag",
+                url: "svgtag/{kind}",
+                defaults: new { controller = "Home", action = "SvgTag", kind = "simple" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

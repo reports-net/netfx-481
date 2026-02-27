@@ -115,10 +115,9 @@ namespace Sample
                 string saveFileName = ShowSaveDialog("html"); // SVGファイル保存ダイアログ
                 if (saveFileName == "") return;
 
-                //SVGデータの保存
-                paoRep.SaveSVGFile(saveFileName);
-
-                // *** 保存が失敗するときはOneDriveへ保存しようとしていると思われます
+                // GetSvg()でインラインSVG埋め込みHTML文字列を取得し、ファイルに保存
+                string svgHtml = paoRep.GetSvg();
+                System.IO.File.WriteAllText(saveFileName, svgHtml, System.Text.Encoding.UTF8);
 
                 OpenSaveFile(saveFileName); // 保存したSVGファイルを開く
             }

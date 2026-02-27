@@ -84,11 +84,12 @@ Namespace Sample
 
                 OpenSaveFile(saveFileName) ' 保存したPDFファイルを開く
             ElseIf radSVG.Checked Then 'SVG出力が選択されている場合
-                Dim saveFileName As String = ShowSaveDialog("svg") ' SVGファイル保存ダイアログ
+                Dim saveFileName As String = ShowSaveDialog("html") ' SVGファイル保存ダイアログ
                 If saveFileName = "" Then Return
 
-                'SVGデータの保存
-                paoRep.SaveSVGFile(saveFileName)
+                ' インラインSVG埋め込みHTML文字列を取得し、ファイルに保存
+                Dim svgHtml As String = paoRep.GetSvg()
+                System.IO.File.WriteAllText(saveFileName, svgHtml, System.Text.Encoding.UTF8)
 
                 ' *** 保存が失敗するときはOneDriveへ保存しようとしていると思われます
 
