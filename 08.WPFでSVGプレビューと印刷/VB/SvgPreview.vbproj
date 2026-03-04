@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SvgPreview</RootNamespace>
+    <AssemblyName>SvgPreview</AssemblyName>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <StartupObject>Sub Main</StartupObject>
+    <MyType>WPF</MyType>
+    <ProjectGuid>{C7A1B2D3-E4F5-6789-ABCD-1E2F3A4B5C6D}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <!-- DLLがインストール済みならローカル参照、なければNuGetから取得 -->
+  <Choose>
+      <When Condition="Exists('$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.dll')">
+        <ItemGroup>
+          <Reference Include="Pao.Reports">
+            <HintPath>$(ProgramFiles) (x86)\Pao@Office\Reports.net\Pao.Reports.dll</HintPath>
+          </Reference>
+        </ItemGroup>
+      </When>
+      <Otherwise>
+        <ItemGroup>
+          <PackageReference Include="Reports.net" Version="4.8.1.*" />
+        </ItemGroup>
+      </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+<!-- Reports.net 本体 -->
+<!-- インストールフォルダにDLLがなければNuGetパッケージから参照 -->
+    <!-- WebView2 -->
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.vb" />
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="MainWindow.xaml.vb">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Util.vb" />
+    <Compile Include="Common\Make単純なサンプル.vb" />
+    <Compile Include="Common\Make10の倍数.vb" />
+    <Compile Include="Common\Make郵便番号一覧.vb" />
+    <Compile Include="Common\Make見積書.vb" />
+    <Compile Include="Common\Make請求書.vb" />
+    <Compile Include="Common\Make商品大小分類.vb" />
+    <Compile Include="Common\Make広告.vb" />
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+</Project>
